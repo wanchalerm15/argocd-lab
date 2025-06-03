@@ -13,7 +13,7 @@ var sampleTodos = new Todo[] {
 
 var app = builder.Build();
 app.MapGet("/", () => sampleTodos);
-app.MapGet("/{id}", (int id) => sampleTodos.FirstOrDefault(a => a.Id == id) is { } todo ? todo : null);
+app.MapGet("/{id}", (int id) => sampleTodos.FirstOrDefault(a => a.Id == id) is { } todo ? Results.Ok(todo) : Results.NotFound());
 app.Run();
 
 [JsonSerializable(typeof(Todo[]))]
