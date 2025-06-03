@@ -19,7 +19,7 @@ spec:
         app: app
     spec:
       containers:
-      - image: dotnet-app:v2
+      - image: dotnet-app:v3
         imagePullPolicy: IfNotPresent
         name: dotnet-app
         ports:

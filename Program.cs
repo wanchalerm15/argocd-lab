@@ -11,6 +11,9 @@ var sampleTodos = new Todo[] {
     new(5, "ไม่บรรทัด", DateOnly.FromDateTime(DateTime.Now.AddDays(2))),
     new(6, "ยางลบ", DateOnly.FromDateTime(DateTime.Now.AddDays(2))),
     new(7, "กล่องดินสอ", DateOnly.FromDateTime(DateTime.Now.AddDays(2))),
+    new(8, "ดินสอสี", DateOnly.FromDateTime(DateTime.Now.AddDays(2))),
+    new(9, "สีน้ำ", DateOnly.FromDateTime(DateTime.Now.AddDays(2))),
+    new(10, "หนังสือ", DateOnly.FromDateTime(DateTime.Now.AddDays(2))),
 };
 
 var app = builder.Build();
