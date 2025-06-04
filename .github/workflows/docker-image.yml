@@ -29,10 +29,13 @@ jobs:
     - name: Replace {{IMAGE_TAG}} in k8s/02-deployment.yaml
       run: sed -i "s/{{IMAGE_TAG}}/${IMAGE_TAG}/g" k8s/02-deployment.yaml
 
-    - name: Commit and push updated k8s/02-deployment.yaml
+    - name: Commit and push updated deployment.yaml
+      env:
+        GH_TOKEN: ${{ secrets.GH_PAT }}
       run: |
-        git config user.name "github-actions"
+        git config user.name "GitHub Actions"
         git config user.email "actions@github.com"
+        git remote set-url origin https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }}
         git add k8s/02-deployment.yaml
         git commit -m "Update image tag to $IMAGE_TAG"
-        git push
+        git push origin HEAD:master
