@@ -16,7 +16,7 @@ jobs:
 
     - name: Extract version from k8s/02-deployment.yaml
       run: |
-        IMAGE=$(grep 'image:' k8s/02-deployment.yaml | awk '{print $2}')
+        IMAGE=$(grep 'image:' k8s/02-deployment.yaml | awk '{print $3}')
         echo "IMAGE=$IMAGE"
         echo "IMAGE=$IMAGE" >> $GITHUB_ENV
 
