@@ -16,9 +16,9 @@ jobs:
 
     - name: Extract version from k8s/02-deployment.yaml
       run: |
-        VERSION=$(grep 'image:' k8s/02-deployment.yaml | head -n 1 | cut -d':' -f3)
-        echo "IMAGE_TAG=v$VERSION"
-        echo "IMAGE_TAG=v$VERSION" >> $GITHUB_ENV
+        IMAGE_TAG=$(grep 'image:' k8s/02-deployment.yaml | head -n 1 | cut -d':' -f3)
+        echo "IMAGE_TAG=$IMAGE_TAG"
+        echo "IMAGE_TAG=$IMAGE_TAG" >> $GITHUB_ENV
 
     - name: Log in to Docker Hub
       run: echo "${{ secrets.DOCKER_HUB_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_HUB_USERNAME }}" --password-stdin
