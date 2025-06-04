@@ -16,15 +16,15 @@ jobs:
 
     - name: Extract version from k8s/02-deployment.yaml
       run: |
-        IMAGE_TAG=$(grep 'image:' k8s/02-deployment.yaml | head -n 1 | cut -d':' -f3)
-        echo "IMAGE_TAG=$IMAGE_TAG"
-        echo "IMAGE_TAG=$IMAGE_TAG" >> $GITHUB_ENV
+        IMAGE=$(grep 'image:' k8s/deployment.yaml | awk '{print $2}')
+        echo "IMAGE=$IMAGE"
+        echo "IMAGE=$IMAGE" >> $GITHUB_ENV
 
     - name: Log in to Docker Hub
       run: echo "${{ secrets.DOCKER_HUB_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_HUB_USERNAME }}" --password-stdin
 
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag ttvone/dotnet-app:${IMAGE_TAG}
+      run: docker build . --file Dockerfile --tag ${IMAGE}
 
     - name: Push image to Docker Hub
-      run: docker push ttvone/dotnet-app:${IMAGE_TAG}
+      run: docker push ${IMAGE}
