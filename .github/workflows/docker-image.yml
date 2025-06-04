@@ -14,11 +14,17 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
 
+    - name: Set short SHA
+      run: echo "IMAGE_TAG=${{ github.sha }}" | cut -c1-7 >> $GITHUB_ENV
+
     - name: Log in to Docker Hub
       run: echo "${{ secrets.DOCKER_HUB_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_HUB_USERNAME }}" --password-stdin
 
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag ttvone/dotnet-app:${{ github.sha }}
+      run: docker build . --file Dockerfile --tag ttvone/dotnet-app:${IMAGE_TAG}
 
     - name: Push image to Docker Hub
-      run: docker push ttvone/dotnet-app:${{ github.sha }}
+      run: docker push ttvone/dotnet-app:${IMAGE_TAG}
+
+    - name: Replace {{IMAGE_TAG}} in k8s/deployment.yaml
+      run: sed -i "s/{{IMAGE_TAG}}/${IMAGE_TAG}/g" k8s/02-deployment.yaml

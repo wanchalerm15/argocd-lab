@@ -19,8 +19,7 @@ spec:
         app: app
     spec:
       containers:
-      - image: dotnet-app:v2
-        imagePullPolicy: IfNotPresent
+      - image: dotnet-app:{{IMAGE_TAG}}
         name: dotnet-app
         ports:
         - containerPort: 8080
