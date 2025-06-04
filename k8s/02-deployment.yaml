@@ -18,8 +18,10 @@ spec:
       labels:
         app: app
     spec:
+      imagePullSecrets:
+      - name: docker-secret
       containers:
-      - image: ttvone/dotnet-app:v1.0.0
+      - image: ttvone/dotnet-app:v1.0.1
         name: dotnet-app
         ports:
         - containerPort: 8080
