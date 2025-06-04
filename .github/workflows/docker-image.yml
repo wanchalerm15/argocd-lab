@@ -26,5 +26,8 @@ jobs:
     - name: Push image to Docker Hub
       run: docker push ttvone/dotnet-app:${IMAGE_TAG}
 
-    - name: Replace {{IMAGE_TAG}} in k8s/deployment.yaml
+    - name: Replace {{IMAGE_TAG}} in k8s/02-deployment.yaml
       run: sed -i "s/{{IMAGE_TAG}}/${IMAGE_TAG}/g" k8s/02-deployment.yaml
+
+    - name: Show description of k8s/02-deployment.yaml
+      run: cat k8s/02-deployment.yaml
