@@ -14,8 +14,11 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
 
-    - name: Set short SHA
-      run: echo "IMAGE_TAG=v${{ github.run_number }}" >> $GITHUB_ENV
+    - name: Extract version from k8s/02-deployment.yaml
+      run: |
+        VERSION=$(grep 'image:' k8s/02-deployment.yaml | head -n 1 | cut -d':' -f3)
+        echo "IMAGE_TAG=v$VERSION"
+        echo "IMAGE_TAG=v$VERSION" >> $GITHUB_ENV
 
     - name: Log in to Docker Hub
       run: echo "${{ secrets.DOCKER_HUB_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_HUB_USERNAME }}" --password-stdin
@@ -25,17 +28,3 @@ jobs:
 
     - name: Push image to Docker Hub
       run: docker push ttvone/dotnet-app:${IMAGE_TAG}
-
-    - name: Replace {{IMAGE_TAG}} in k8s/02-deployment.yaml
-      run: sed -i "s/{{IMAGE_TAG}}/${IMAGE_TAG}/g" k8s/02-deployment.yaml
-
-    - name: Commit and push updated deployment.yaml
-      env:
-        GH_TOKEN: ${{ secrets.GH_PAT }}
-      run: |
-        git config user.name "GitHub Actions"
-        git config user.email "actions@github.com"
-        git remote set-url origin https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }}
-        git add k8s/02-deployment.yaml
-        git commit -m "Update image tag to $IMAGE_TAG"
-        git push origin HEAD:master
